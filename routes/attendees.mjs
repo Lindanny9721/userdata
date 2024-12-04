@@ -11,10 +11,10 @@ router.post("/", async (req, res) => {
         console.log(event.user_id);
         if(!event) res.send("Event not found").status(404);
         await event.save();
-        res.send(newAttendee).status(200);
         const newAttendee = new Attendee({event_id, user_id, status});
         await newAttendee.save();
         event.userAttending.push(user_id);
+        res.send(newAttendee).status(200);
     } catch(e) {
         console.error(e);
         res.send("Error posting attendee").status(404);
