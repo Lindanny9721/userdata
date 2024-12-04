@@ -20,5 +20,15 @@ router.post("/", async (req, res) => {
         res.send("Error posting attendee").status(404);
     }
 })
-
+router.get("/:user_id", async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        const attendees = await Attendee.find({userAttending: userId}).populate("event_id");
+        if(attendees.length === 0) return res.send("User is attending no events!").status(404);
+        res.send(attendees).status(200);
+    } catch(e) {
+        console.error(e)
+        res.send("Server Error").status(500);
+    }
+})
 export default router;

@@ -37,5 +37,16 @@ router.delete("/:event_id", async (req, res) => {
         res.send("Error deleting event").status(404);
     }
 })
+router.get("/:user_id", async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        const events = await Event.find({user_id: userId});
+        if(events.length === 0) return res.send("User created no events!").status(404);
+        res.send(events).status(200);
+    } catch(e) {
+        console.error(e)
+        res.send("Server Error").status(500);
+    }
+})
 
 export default router;
