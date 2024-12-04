@@ -30,7 +30,7 @@ const eventData = [
     new Event({eventName: "Donut Eating Contest", eventDate: Date, user_id: savedId[8], userAttending: [savedId[1],savedId[9]], location: "Some random krispy kreme", description: "Winner wins a coupon to krispy kreme" }),
     new Event({eventName: "Costume Contest", eventDate: Date, user_id: savedId[9], userAttending: [savedId[5],savedId[2]], location: "My neighbor", description: "He's scared of trex" }),
 ]
-router.get("/user", async (req, res) => {
+router.get("/", async (req, res) => {
     try {
         for (let user of userData) {
             await user.save();
@@ -81,18 +81,4 @@ router.get("/user", async (req, res) => {
         res.status(404).send("Error Posting Data");
     }
 });
-router.get("/event", async (req, res) => {
-    try {
-        for (let event of eventData) {
-            await event.save();
-            savedEventId.push(event.id);
-        }
-        console.log(savedEventId);
-        res.status(200).send(eventData);
-    } catch (e) {
-        console.error(e);
-        res.status(404).send("Error Posting Event Data");
-    }
-});
-
 export default router;

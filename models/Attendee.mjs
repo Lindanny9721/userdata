@@ -6,6 +6,6 @@ const attendeeSchema = new mongoose.Schema({
     status: {type: String, enum: ["pending", "confirmed", "declined"]}
 });
 attendeeSchema.index({event_id: 1, user_id: 1});
-const Attendee = mongoose.model("attendee", attendeeSchema);
+const Attendee = mongoose.model("Attendee", attendeeSchema);
 export default Attendee;
 

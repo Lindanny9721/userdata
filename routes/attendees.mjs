@@ -8,7 +8,6 @@ router.post("/", async (req, res) => {
     const {event_id, user_id, status} = req.body;
     try {
         const event = await Event.findById(event_id);
-        console.log(event.user_id);
         if(!event) res.send("Event not found").status(404);
         await event.save();
         const newAttendee = new Attendee({event_id, user_id, status});
@@ -22,8 +21,9 @@ router.post("/", async (req, res) => {
 })
 router.get("/:user_id", async (req, res) => {
     try {
-        const userId = req.params.userId;
-        const attendees = await Attendee.find({userAttending: userId}).populate("event_id");
+        const userId = req.params.user_id;
+        console.log("test");
+        const attendees = await Attendee.find({user_id: userId}).populate("event_id");
         if(attendees.length === 0) return res.send("User is attending no events!").status(404);
         res.send(attendees).status(200);
     } catch(e) {
@@ -31,25 +31,21 @@ router.get("/:user_id", async (req, res) => {
         res.send("Server Error").status(500);
     }
 })
-//Work on this later(Suppose to delete the attendees from the event section and attendee section, only goes through when email and password is in the body of postman)
-// router.delete("/:userId/:eventId", async (req, res) => {
-//     try {
-//         const userId = req.params.userId;
-//         const eventId = req.params.eventId;
-//         console.log(eventId);
-//         console.log(userId);
-//         const event = await Event.findById(eventId);
-//         const attendee = await Attendee.findOne({event_id: eventId, user_id: userId})
-//         console.log(attendee);
-//         if(!attendee) return res.send("User is not attending this event").status(404);
-//         if(!event) return res.send("Event not found").status(404);
-//         event.userAttending.pull(userId);
-//         await Attendee.deleteOne({event_id: eventId, user_id: userId});
-//         await event.save();
-//         res.send("Attendee is removed from the event!").status(200);
-//     } catch(e) {
-//         console.error(e);
-//         res.send("Server Error").status(500);
-//     }
-// })
+router.delete("/:userId/:eventId", async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        const eventId = req.params.eventId;
+        const event = await Event.findById(eventId);
+        const attendee = await Attendee.findOne({event_id: eventId, user_id: userId})
+        if(!attendee) return res.send("User is not attending this event").status(404);
+        if(!event) return res.send("Event not found").status(404);
+        event.userAttending.pull(userId);
+        await Attendee.deleteOne({event_id: eventId, user_id: userId});
+        await event.save();
+        res.send("Attendee is removed from the event!").status(200);
+    } catch(e) {
+        console.error(e);
+        res.send("Server Error").status(500);
+    }
+})
 export default router;

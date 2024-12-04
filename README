@@ -1,0 +1,42 @@
+Planner: User Creation & Event Attendance
+
+This project is a part of a capstone application designed to help users plan hangout events with friends, powered by the Google Maps API. The primary features include user registration, logging in, and choosing whether or not they will be attending various planned events. The app allows users to create and manage accounts, browse events, and RSVP to events based on their preferences.
+
+API Endpoints:
+GET /fakeData - Would create the database needed for the user to interact with
+GET /users - Recieve all the users in the database
+GET /users/:id - Gives a specfic user 
+POST /users/signUp - Creates the new users
+{
+    "name" : "Billy",
+    "email": "billybob22@gmail.com",
+    "password": "test123"
+}
+POST /users/login - Users can login in with the correct password and email
+GET /events/:user_id - Grabs events posted by this user
+POST /events - Post new events that are coming up
+{
+  "eventName": "Music",
+  "eventDate": "2024-12-04T19:47:03.078+00:00",
+  "user_id": "507f1f77bcf86cd799439012",
+  "location": "My garage",
+  "description": "Indie Music"
+}
+PATCH /events/event_id - Updates Info About the Event
+{
+  "eventName": "Music",
+  "eventDate": "2025-12-04T19:47:03.078+00:00",
+  "location": "My Basement",
+  "description": "Rock Music"
+}
+DELETE /events/:event_id - Delete an event
+POST /attendees - Post an event that the user would attend (Will likely need to change both id to an existing data)
+{
+  "event_id": "6750b1b7f3c1eb8d2ad3fb9b",
+  "user_id": "6750b19df3c1eb8d2ad3fb79",
+  "status": "confirmed"
+}
+GET /attendees/:user_id - Grabs all events user is attending
+DELETE /attendees/:userId/:eventId - Deletes attendees in the attendee folder and remove them from userAttending in the events folder
+
+
