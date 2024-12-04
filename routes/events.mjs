@@ -26,5 +26,16 @@ router.patch("/:event_id", async (req, res) => {
         res.send("Error updating event").status(404);
     }
 })
+router.delete("/:event_id", async (req, res) => {
+    const {event_id} = req.params;
+    try {
+        const event = await Event.findByIdAndDelete(event_id);
+        if(!event) res.send("Event not found").status(404);
+        res.send(event).status(200);
+    } catch(e) {
+        console.error(e);
+        res.send("Error deleting event").status(404);
+    }
+})
 
 export default router;

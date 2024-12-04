@@ -8,6 +8,6 @@ const eventSchema = new mongoose.Schema({
     location: {type: String, required: true, unique: true},
     description: {type: String, required: true}
 })
-eventSchema.index({userId: 1, location: 1})
+eventSchema.index({user_id: 1, location: 1})
 const Event = mongoose.model("Event", eventSchema);
 export default Event;
