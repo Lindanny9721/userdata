@@ -1,5 +1,5 @@
 import express from "express";
-import User from "../models/User";
+import User from "../models/User.mjs";
 
 const router = express.Router();
 
@@ -22,3 +22,16 @@ router.get("/:id", async (req, res) => {
         res.send("Error recieving users").status(404);
     }
 })
+router.post("/", async (req, res) => {
+    const {name, email, password} = req.body;
+    try {
+        const newUser = new User({name, email, password})
+        await newUser.save();
+        res.send(newUser).status(200);
+    } catch(e) {
+        console.error(e);
+        res.send("Error posting user").status(404);
+    }
+})
+
+export default router;
