@@ -31,7 +31,7 @@ router.get("/:user_id", async (req, res) => {
         res.send("Server Error").status(500);
     }
 })
-//Work on this later
+//Work on this later(Suppose to delete the attendees from the event section and attendee section, only goes through when email and password is in the body of postman)
 // router.delete("/:userId/:eventId", async (req, res) => {
 //     try {
 //         const userId = req.params.userId;
