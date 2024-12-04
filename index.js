@@ -13,6 +13,17 @@ app.get("/", (req, res) => {
 app.use((err, _req, res, next) => {
     res.status(500).send("Seems like we messed up somewhere...");
 });
+app.use("/users", users);
+app.get("/test", async (req, res) => {
+    try {
+        const connected = mongoose.connection.readyState === 1;
+        res.status(200).send({message: `MongoDB is ${connected ? `connected` : `not connected`}` })
+    }
+    catch (error) 
+    {
+        res.status(500).send({error: "Can't check with mongoDB"});
+    }
+})
 app.listen(PORT, () => {
     console.log(`Server is running on port: ${PORT}`);
 });
