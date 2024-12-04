@@ -22,7 +22,6 @@ router.post("/", async (req, res) => {
 router.get("/:user_id", async (req, res) => {
     try {
         const userId = req.params.user_id;
-        console.log("test");
         const attendees = await Attendee.find({user_id: userId}).populate("event_id");
         if(attendees.length === 0) return res.send("User is attending no events!").status(404);
         res.send(attendees).status(200);
